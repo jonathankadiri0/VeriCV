@@ -38,6 +38,20 @@ public class JwtTokenProvider {
                 .compact();
     }
 
+    // NEW: Generate token with userId
+    public String generateTokenFromEmailAndUserId(String email, Long userId) {
+        Date now = new Date();
+        Date expiryDate = new Date(now.getTime() + jwtExpirationMs);
+
+        return Jwts.builder()
+                .subject(email)
+                .claim("userId", userId) // Store userId in token
+                .issuedAt(now)
+                .expiration(expiryDate)
+                .signWith(getSigningKey())
+                .compact();
+    }
+
     public String generateTokenFromEmail(String email) {
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() + jwtExpirationMs);
@@ -56,8 +70,22 @@ public class JwtTokenProvider {
                 .build()
                 .parseSignedClaims(token)
                 .getPayload();
-
         return claims.getSubject();
+    }
+
+    // NEW: Get userId from token
+    public Long getUserIdFromToken(String token) {
+        Claims claims = Jwts.parser()
+                .verifyWith(getSigningKey())
+                .build()
+                .parseSignedClaims(token)
+                .getPayload();
+
+        Object userIdObj = claims.get("userId");
+        if (userIdObj != null) {
+            return Long.valueOf(userIdObj.toString());
+        }
+        return null;
     }
 
     public boolean validateToken(String authToken) {

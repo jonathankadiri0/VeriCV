@@ -53,10 +53,11 @@ public class AuthService {
         roles.add("ROLE_USER");
         user.setRoles(roles);
 
-        userRepository.save(user);
+        // Save user first (this generates the ID)
+        user = userRepository.save(user);
 
-        // Generate token
-        String token = tokenProvider.generateTokenFromEmail(user.getEmail());
+        // Generate token with userId
+        String token = tokenProvider.generateTokenFromEmailAndUserId(user.getEmail(), user.getId());
 
         // Return response
         AuthResponse response = new AuthResponse();
@@ -75,12 +76,12 @@ public class AuthService {
                         request.getEmail(),
                         request.getPassword()));
 
-        // Generate token
-        String token = tokenProvider.generateToken(authentication);
-
-        // Get user details
+        // Get user details FIRST
         User user = userRepository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new RuntimeException("User not found"));
+
+        // Generate token with userId
+        String token = tokenProvider.generateTokenFromEmailAndUserId(user.getEmail(), user.getId());
 
         // Return response
         AuthResponse response = new AuthResponse();
