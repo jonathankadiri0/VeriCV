@@ -17,7 +17,7 @@ With 1 in 5 people lying on their CVs and bad hires costing companies upwards of
 
 ## Project Status
 
-🚧 Currently in development - Setting up initial architecture
+🚧 Currently in development - Fixing bugs and rounding up frontend
 
 ## Getting Started
 
