@@ -28,6 +28,7 @@ export const authAPI = {
 export const cvAPI = {
   create: (data) => api.post('/cv', data),
   getMyCV: () => api.get('/cv/me'),
+  getByUserId: (userId) => api.get(`/cv/user/${userId}`), 
   update: (id, data) => api.put(`/cv/${id}`, data),
   addEducation: (cvId, data) => api.post(`/cv/${cvId}/education`, data),
   addExperience: (cvId, data) => api.post(`/cv/${cvId}/experience`, data),

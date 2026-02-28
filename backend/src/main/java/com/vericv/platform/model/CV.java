@@ -1,5 +1,6 @@
 package com.vericv.platform.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -37,6 +38,7 @@ public class CV {
     // Relationship: One User can have one CV (for MVP)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", insertable = false, updatable = false)
+    @JsonIgnore // ADD THIS LINE HERE
     private User user;
 
     // Lifecycle callbacks
@@ -125,4 +127,5 @@ public class CV {
     public void setUser(User user) {
         this.user = user;
     }
+
 }
