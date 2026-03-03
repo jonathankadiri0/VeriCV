@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import { directoryAPI, cvAPI } from '../services/api';
 
 function PublicProfile() {
@@ -21,7 +21,6 @@ function PublicProfile() {
       const profileResponse = await directoryAPI.getProfile(userId);
       setProfile(profileResponse.data);
       
-      // Try to get CV details
       try {
         const cvResponse = await cvAPI.getByUserId(userId);
         setCV(cvResponse.data);
@@ -38,13 +37,23 @@ function PublicProfile() {
 
   const getBadgeColor = (badge) => {
     const colors = {
-      NONE: '#gray',
+      NONE: '#808080',
       BRONZE: '#cd7f32',
       SILVER: '#c0c0c0',
       GOLD: '#ffd700',
       PLATINUM: '#e5e4e2'
     };
-    return colors[badge] || '#gray';
+    return colors[badge] || '#808080';
+  };
+
+  const formatDate = (dateStr) => {
+    if (!dateStr) return '';
+    try {
+      const date = new Date(dateStr);
+      return date.toLocaleDateString('en-GB', { month: 'short', year: 'numeric' });
+    } catch {
+      return dateStr;
+    }
   };
 
   if (loading) {
@@ -60,14 +69,7 @@ function PublicProfile() {
           margin: '0 auto'
         }}></div>
         <p style={{ marginTop: '20px', color: '#666' }}>Loading profile...</p>
-        <style>
-          {`
-            @keyframes spin {
-              0% { transform: rotate(0deg); }
-              100% { transform: rotate(360deg); }
-            }
-          `}
-        </style>
+        <style>{`@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }`}</style>
       </div>
     );
   }
@@ -76,12 +78,20 @@ function PublicProfile() {
     return (
       <div style={{ textAlign: 'center', padding: '50px' }}>
         <p style={{ fontSize: '18px', color: '#c33' }}>{error || 'Profile not found'}</p>
+        <Link to="/directory" style={{ color: '#007bff', marginTop: '15px', display: 'inline-block' }}>
+          ← Back to Directory
+        </Link>
       </div>
     );
   }
 
   return (
     <div style={{ maxWidth: '900px', margin: '30px auto', padding: '20px' }}>
+      {/* Back link */}
+      <Link to="/directory" style={{ color: '#007bff', textDecoration: 'none', marginBottom: '20px', display: 'inline-block' }}>
+        ← Back to Directory
+      </Link>
+
       {/* Header */}
       <div style={{ 
         backgroundColor: 'white', 
@@ -108,7 +118,7 @@ function PublicProfile() {
             display: 'inline-block',
             padding: '8px 16px',
             backgroundColor: getBadgeColor(profile.verificationBadge),
-            color: profile.verificationBadge === 'GOLD' ? '#000' : '#fff',
+            color: profile.verificationBadge === 'GOLD' || profile.verificationBadge === 'PLATINUM' ? '#000' : '#fff',
             borderRadius: '20px',
             fontSize: '16px',
             fontWeight: 'bold'
@@ -154,7 +164,7 @@ function PublicProfile() {
                         {edu.degree} - {edu.fieldOfStudy}
                       </p>
                       <p style={{ margin: '0', color: '#666', fontSize: '14px' }}>
-                        {edu.startDate} - {edu.endDate}
+                        {formatDate(edu.startDate)} - {formatDate(edu.endDate)}
                       </p>
                     </div>
                     {edu.isVerified && (
@@ -185,7 +195,7 @@ function PublicProfile() {
                         {exp.company}
                       </p>
                       <p style={{ margin: '0', color: '#666', fontSize: '14px' }}>
-                        {exp.startDate} - {exp.isCurrent ? 'Present' : exp.endDate}
+                        {formatDate(exp.startDate)} - {exp.isCurrent ? 'Present' : formatDate(exp.endDate)}
                       </p>
                     </div>
                     {exp.isVerified && (

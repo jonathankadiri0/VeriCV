@@ -33,7 +33,7 @@ function DirectorySearch() {
 
   const getBadgeColor = (badge) => {
     const colors = {
-      NONE: '#gray',
+      NONE: '#808080',
       BRONZE: '#cd7f32',
       SILVER: '#c0c0c0',
       GOLD: '#ffd700',

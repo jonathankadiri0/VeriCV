@@ -1,3 +1,4 @@
+
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import Navbar from './components/Navbar';
@@ -10,6 +11,7 @@ import Dashboard from './pages/Dashboard';
 import DirectorySearch from './pages/DirectorySearch';
 import CreateCV from './pages/CreateCV';
 import PublicProfile from './pages/PublicProfile';
+import NotFound from './pages/NotFound';
 
 function App() {
   return (
@@ -36,6 +38,9 @@ function App() {
                   <CreateCV />
                 </ProtectedRoute>
               } />
+
+              {/* 404 */}
+              <Route path="*" element={<NotFound />} />
             </Routes>
           </div>
           <Footer />
