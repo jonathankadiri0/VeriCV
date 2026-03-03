@@ -107,7 +107,7 @@ function Register() {
             value={formData.password}
             onChange={handleChange}
             required
-            minLength="6"
+            minLength="8"
             style={{
               width: '100%',
               padding: '10px',

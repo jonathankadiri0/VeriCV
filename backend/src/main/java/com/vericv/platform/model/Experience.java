@@ -1,5 +1,6 @@
 package com.vericv.platform.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -52,9 +53,9 @@ public class Experience {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    // Relationship: Many experience entries belong to one CV
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cv_id", insertable = false, updatable = false)
+    @JsonIgnore
     private CV cv;
 
     @PrePersist
@@ -68,7 +69,6 @@ public class Experience {
         updatedAt = LocalDateTime.now();
     }
 
-    // Constructors
     public Experience() {
     }
 
@@ -79,7 +79,6 @@ public class Experience {
         this.description = description;
     }
 
-    // Getters and Setters
     public Long getId() {
         return id;
     }
