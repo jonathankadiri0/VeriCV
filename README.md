@@ -1,28 +1,61 @@
-# VeriCV - Digitally Verifiable CV Platform
+# VeriCV - Verified Professionals Directory
 
 ## Overview
 
-VeriCV is a secure, Java-based web platform that creates digitally verifiable, tamper-proof CVs with real-time credential verification.
+VeriCV is a full-stack web application that functions as a searchable directory of verified professionals. Inspired by the concept of a traditional phone book, VeriCV allows users to register, build a profile containing their education and work experience, and appear in a publicly searchable directory.
 
-## Problem Statement
+## Live Demo
 
-With 1 in 5 people lying on their CVs and bad hires costing companies upwards of £132,000 each, VeriCV provides automated credential verification to eliminate CV fraud.
+https://vericv-app-d701eba5cd19.herokuapp.com/
 
 ## Technology Stack
 
-- **Backend**: Java, Spring Boot
-- **Database**: PostgreSQL/MongoDB
-- **Frontend**: React/Thymeleaf
-- **Security**: Spring Security, JWT, Digital Signatures (JCA)
+- **Backend:** Spring Boot 3.2, Java 17
+- **Database:** PostgreSQL 15
+- **Frontend:** React, Tailwind CSS
+- **Authentication:** JWT (RFC 7519), BCrypt
+- **Containerisation:** Docker
+- **Deployment:** Heroku
 
-## Project Status
+## Features
 
-🚧 Currently in development - Fixing bugs and rounding up frontend
+- User registration and login with JWT authentication
+- CV creation with structured education and experience entries
+- Public directory search by keyword (no login required)
+- Public profile viewing with view counters
+- Tiered verification badge system (None, Bronze, Silver, Gold, Platinum)
+- Profile visibility controls
 
-## Getting Started
+## Running Locally
 
-Instructions coming soon...
+### Prerequisites
+
+- Java 17+
+- Maven 3.9+
+- Docker
+- Node.js 18+
+
+### Setup
+
+1. Clone the repository
+   git clone https://github.com/jonathankadiri0/VeriCV.git
+   cd VeriCV
+
+2. Start the database
+   docker-compose up -d
+
+3. Start the backend
+   cd backend
+   ./mvnw spring-boot:run
+
+4. Start the frontend
+   cd frontend
+   npm install
+   npm run dev
+
+5. Open http://localhost:5173 in your browser
 
 ## Author
 
-Jonathan Kadiri
+Jonathan Kadiri - Final Year Project, Maynooth University
+Supervisor: Dr. Keith Maycock
